@@ -8,7 +8,7 @@ node {
   dir('expressjs-starter') {
     stage('Installing dependencies') {
       nodejs(nodeJSInstallationName: 'nodejs') {
-        sh 'npm install'
+        sh 'npm install --loglevel verbose'
       }
     }
     stage('Testing') {

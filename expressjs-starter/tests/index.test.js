@@ -1,3 +1,4 @@
+require('debug').enable('superagent');
 
 const assert = require('chai').assert;
 const superagent = require('superagent');
