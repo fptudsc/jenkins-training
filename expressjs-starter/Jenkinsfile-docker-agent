@@ -1,0 +1,42 @@
+pipeline {
+
+  agent {
+    docker { image 'node:16.13.1-alpine' }
+  }
+
+  options {
+    checkoutToSubdirectory('expressjs-starter')
+  }
+
+  triggers {
+    cron('H/15 * * * 1-5')
+  }
+
+  stages {
+    stage('Preparation') {
+      steps {
+        checkout scm
+        sh "git rev-parse --short HEAD > .git/commit-id"
+        script {
+          COMMIT_ID = readFile('.git/commit-id').trim()
+        }
+        echo "Commit ID: ${COMMIT_ID}"
+      }
+    }
+    stage('Installing dependencies') {
+      steps {
+        npm install --loglevel verbose
+      }
+    }
+    stage('Testing') {
+      steps {
+        npm test
+      }
+    }
+    stage('Notify') {
+      steps {
+        echo "Pipeline is finished"
+      }
+    }
+  }
+}
