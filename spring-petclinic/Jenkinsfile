@@ -1,0 +1,14 @@
+pipeline {
+
+    agent any
+
+    checkoutToSubdirectory('spring-petclinic')
+
+    stages {
+        stage('Prepare') {
+            steps {
+                sh "./mvnw clean install"
+            }
+        }
+    }
+}
